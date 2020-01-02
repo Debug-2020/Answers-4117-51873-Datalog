@@ -27,15 +27,21 @@ public class Substitution {
 	 */
 	public Substitution extend(Variable variable, Value value) {
 		int index = from.indexOf(variable);
-		if (index != -1) { // There exists already a mapping for this variable.
-			return null; // same value, return null.
+		int index2 = to.indexOf(value);
+		if (value == null) {
+			return null;
 		}
 		Substitution s = new Substitution(this.from, this.to);
-		s.from.add(variable);
-		s.to.add(value);
+
+		if (index != -1 || index2 != -1) { // There exists already a mapping for this variable.
+			return s; // same value, return null.
+		}else {
+			s.from.add(variable);
+			s.to.add(value);
+		
 		return s;
 	}
-
+	}
 	/**
 	 * Assuming that this substitution is consistent, applies it on the provided
 	 * atom and returns the resulting atom..
